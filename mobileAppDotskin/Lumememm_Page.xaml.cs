@@ -14,11 +14,11 @@ namespace mobileAppDotskin
         Button hide, show, color,rotate;
         Random rnd;
         Slider slider;
+        BoxView[] arvud = new BoxView[3];
+
         public Lumememm_Page()
         {
             InitializeComponent();
-
-            lbl = new Label { Text = "Rgb is 0.0.0", TextColor = Color.Black, HorizontalOptions = LayoutOptions.Center, FontSize = 24 };
 
             ruut = new BoxView
             {
@@ -29,6 +29,7 @@ namespace mobileAppDotskin
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = Color.Brown
             };
+            arvud[0] = ruut;
 
             ring1 = new BoxView
             {
@@ -39,6 +40,8 @@ namespace mobileAppDotskin
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = Color.White
             };
+            arvud[1] = ring1;
+
 
             ring2 = new BoxView
             {
@@ -49,31 +52,40 @@ namespace mobileAppDotskin
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 BackgroundColor = Color.White
             };
+            arvud[2] = ring2;
+
 
             hide = new Button
             {
-                Text = "Hide snowman"
+                Text = "Peita"
             };
 
             show = new Button
             {
-                Text = "Show snowman",
+                Text = "Näita",
                 IsVisible = false
             };
             color = new Button
             {
-                Text = "Change color",
+                Text = "Muuda värv",
             };
             rotate = new Button
             {
-                Text = "Rotate",
+                Text = "Pööra ämbrit",
+
             };
             slider = new Slider
             {
+                
                 Minimum = 0,
                 Maximum = 2,
                 Value = 0,
                 HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            lbl = new Label
+            {
+                Text = "Sulatada lumememm"
             };
             show.Clicked += Show_Clicked;
             hide.Clicked += Hide_Clicked;
@@ -83,26 +95,32 @@ namespace mobileAppDotskin
 
             var lay = new AbsoluteLayout
             {
-                Children = { ring1, ring2, ruut, rotate,hide, show, color ,slider}
+                Children = { ring1, ring2, ruut, rotate, hide, show, color, lbl, slider }
             };
 
-            AbsoluteLayout.SetLayoutBounds(ruut, new Rectangle(0.4, 0.13, 300, 200));
+            AbsoluteLayout.SetLayoutBounds(ruut, new Rectangle(0.4, 0.03, 300, 200));
             AbsoluteLayout.SetLayoutFlags(ruut, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(ring1, new Rectangle(0.4, 0.29, 300, 200));
+            AbsoluteLayout.SetLayoutBounds(ring1, new Rectangle(0.4, 0.19, 300, 200));
             AbsoluteLayout.SetLayoutFlags(ring1, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(ring2, new Rectangle(0.4, 0.59, 300, 200));
+            AbsoluteLayout.SetLayoutBounds(ring2, new Rectangle(0.4, 0.49, 300, 200));
             AbsoluteLayout.SetLayoutFlags(ring2, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(hide, new Rectangle(0, 0.9, 200, 50));
+            AbsoluteLayout.SetLayoutBounds(hide, new Rectangle(0, 0.7, 200, 50));
             AbsoluteLayout.SetLayoutFlags(hide, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(show, new Rectangle(0, 0.9, 200, 50));
+            AbsoluteLayout.SetLayoutBounds(show, new Rectangle(0, 0.7, 400, 50));
             AbsoluteLayout.SetLayoutFlags(show, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(color, new Rectangle(0, 1, 200, 50));
+            AbsoluteLayout.SetLayoutBounds(color, new Rectangle(0, 0.8, 200, 50));
             AbsoluteLayout.SetLayoutFlags(color, AbsoluteLayoutFlags.PositionProportional);
-            AbsoluteLayout.SetLayoutBounds(slider, new Rectangle(0.5, 1, 300, 50));
+            AbsoluteLayout.SetLayoutBounds(lbl, new Rectangle(0.1, 0.89, 200, 50));
+            AbsoluteLayout.SetLayoutFlags(lbl, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(slider, new Rectangle(0, 0.9, 200, 50));
             AbsoluteLayout.SetLayoutFlags(slider, AbsoluteLayoutFlags.PositionProportional);
+            AbsoluteLayout.SetLayoutBounds(rotate, new Rectangle(0, 1, 200, 50));
+            AbsoluteLayout.SetLayoutFlags(rotate, AbsoluteLayoutFlags.PositionProportional);
+
             Content = lay;
             BackgroundColor = Color.Gray;
-            
+
+
         }
         private void Hide_Clicked(object sender, EventArgs e)
         {
@@ -124,18 +142,15 @@ namespace mobileAppDotskin
         private void Color_Clicked(object sender, EventArgs e)
         {
             rnd = new Random();
-            int r = rnd.Next(0, 255);
-            int g = rnd.Next(0, 255);
-            int b = rnd.Next(0, 255);
-            ring1.BackgroundColor = Color.FromRgb(r, g, b);
-            r = rnd.Next(0, 255);
-            g = rnd.Next(0, 255);
-            b = rnd.Next(0, 255);
-            ring2.BackgroundColor = Color.FromRgb(r, g, b);
-            r = rnd.Next(0, 255);
-            g = rnd.Next(0, 255);
-            b = rnd.Next(0, 255);
-            ruut.BackgroundColor = Color.FromRgb(r, g, b);
+            int r, g, b;
+
+            foreach (BoxView arv in arvud)
+            {
+                r = rnd.Next(0, 255);
+                g = rnd.Next(0, 255);
+                b = rnd.Next(0, 255);
+                arv.BackgroundColor = Color.FromRgb(r, g, b);
+            }
         }
         private void Slider_ValueChanged(object sender, ValueChangedEventArgs e)
         {
@@ -161,18 +176,8 @@ namespace mobileAppDotskin
         }
         private async void RotateSquare(object sender, EventArgs e)
         {
-            while (true)
-            {
-      
                 await ruut.RelRotateTo(360, 2000);
-
-       
                 ruut.Rotation = 0;
-
-                  
-                await Task.Delay(1000);
-            }
-        
         }
     }
 }
