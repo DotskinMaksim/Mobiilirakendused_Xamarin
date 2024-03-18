@@ -26,15 +26,34 @@ namespace mobileAppDotskin
 
 
 
+
         Grid grid;
         Random rnd;
         Label lbl;
         Button btn;
         List<Label> labels = new List<Label>();
+        bool playWithBot;
+
+        Player player1;
+        Player player2;
+
+        Player lastGonePlayer;
 
 
-        public TripsTrapsTrull_Page()
+        public TripsTrapsTrull_Page(bool PlayWithBot)
         {
+
+            playWithBot = PlayWithBot;
+
+            player1 = new Player("X", false);
+
+            if (playWithBot)  player2 = new Player("O", true); 
+
+            else player2 = new Player("O", false);
+
+            lastGonePlayer = player2;
+
+
             grid = new Grid
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -57,45 +76,130 @@ namespace mobileAppDotskin
                     grid.Children.Add(lbl, i, j);
 
                     var tapGestureRecognizer = new TapGestureRecognizer();
-                    tapGestureRecognizer.Tapped += (s, e) =>
+                    tapGestureRecognizer.Tapped += async (s, e) =>
                     {
                         var tappedLabel = (Label)s;
+
                         if (string.IsNullOrEmpty(tappedLabel.Text))
                         {
-                            // Если текст пустой, изменяем его на "X"
-                            tappedLabel.Text = "X";
+                            // Ход игрока
+                            tappedLabel.Text = lastGonePlayer.sym;
+                            // Проверяем, выиграл ли игрок
+                            if (CheckForWin())
+                            {
+                                await DisplayAlert("Победа", $"Игрок {lastGonePlayer.sym} выиграл!", "OK");
+                                reloadGame();
+                                return;
+                            }
+
+
+                            if (labels.Any(label => string.IsNullOrEmpty(label.Text)))
+                            {
+                                // Ход бота
+                                
+                                if (player2.isBot)
+                                {
+                                    await BotMove();
+                                }
+                                else
+                                {                   
+                                    lastGonePlayer.sym = (lastGonePlayer.sym == "X") ? "O" : "X";
+                                }
+
+                                // Проверяем, выиграл ли бот
+                                if (CheckForWin())
+                                {
+                                    await DisplayAlert("Победа", "Бот выиграл!", "OK");
+                                    reloadGame();
+
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                await DisplayAlert("Ничья", "Игра окончена вничью!", "OK");
+                                reloadGame();
+
+                                return;
+                            }
                         }
-                        else if (tappedLabel.Text == "X")
-                        {
-                            // Если текст "X", изменяем его на "O"
-                            tappedLabel.Text = "O";
-                        }
-                        else
-                        {
-                            // Если текст "O", изменяем его на пустоту
-                            tappedLabel.Text = "";
-                        }
+
+
                     };
                     lbl.GestureRecognizers.Add(tapGestureRecognizer);
                 }
             }
-
-            btn = new Button
-            {
-                Text = "mängida"
-            };
-
-            grid.Children.Add(btn, 0, 4); // Добавляем кнопку в сетку с индексами столбца и строки
-            btn.Clicked += Btn_Clicked;
-
+            
             Content = grid;
+           
         }
 
 
-        private void Btn_Clicked(object sender, EventArgs e)
+        private void reloadGame()
         {
-            labels[0].Text = "X";
+            foreach (var label in labels)
+            {
+                label.Text = "";
+            }
+
+            // Вернуть последнего игрока (первого или второго) в качестве текущего игрока
+            lastGonePlayer = player2;
         }
+        private bool CheckForWin()
+        {
+          
+            for (int i = 0; i < 3; i++)
+            {
+                if (labels[i * 3].Text == labels[i * 3 + 1].Text &&
+                    labels[i * 3].Text == labels[i * 3 + 2].Text &&
+                    !string.IsNullOrEmpty(labels[i * 3].Text))
+                {
+                    return true;
+                }
+            }
+
+           
+            for (int i = 0; i < 3; i++)
+            {
+                if (labels[i].Text == labels[i + 3].Text &&
+                    labels[i].Text == labels[i + 6].Text &&
+                    !string.IsNullOrEmpty(labels[i].Text))
+                {
+                    return true;
+                }
+            }
+
+        
+            if (labels[0].Text == labels[4].Text && labels[0].Text == labels[8].Text && !string.IsNullOrEmpty(labels[0].Text))
+            {
+                return true;
+            }
+            if (labels[2].Text == labels[4].Text && labels[2].Text == labels[6].Text && !string.IsNullOrEmpty(labels[2].Text))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        private async Task BotMove()
+        {
+            await Task.Delay(500); // Для имитации задержки, чтобы было видно ход бота
+
+            var emptyCells = labels.Where(label => string.IsNullOrEmpty(label.Text)).ToList();
+            if (emptyCells.Any())
+            {
+                var random = new Random();
+                var randomCell = emptyCells[random.Next(emptyCells.Count)];
+                var botSymbol = (lastGonePlayer.sym == "X") ? "O" : "X";
+                randomCell.Text = botSymbol; // Ход бота в случайную пустую клетку
+                lastGonePlayer.sym = botSymbol; // Изменение текущего игрока
+            }
+        }
+
+
+
+
+
     }
 
 
