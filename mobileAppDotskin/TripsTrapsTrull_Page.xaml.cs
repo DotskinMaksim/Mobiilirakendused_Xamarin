@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static mobileAppDotskin.TripsTrapsTrull_Page;
 
 namespace mobileAppDotskin
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TripsTrapsTrull_Page : ContentPage
     {
+<<<<<<< HEAD
+=======
 
         //List<Label> tapped = new List<Label>();
         //List<Label> untapped = new List<Label>();
@@ -27,21 +28,76 @@ namespace mobileAppDotskin
 
 
 
+<<<<<<< HEAD
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
         Grid grid;
-        Random rnd;
         Label lbl;
-        Button btn;
         List<Label> labels = new List<Label>();
         bool playWithBot;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
 
         Player player1;
         Player player2;
 
         Player lastGonePlayer;
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
 
+        Player player1;
+        Player player2;
 
+<<<<<<< HEAD
+        Player lastGonePlayer;
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+
+        Player player1;
+        Player player2;
+
+<<<<<<< HEAD
+        Player lastGonePlayer;
+        Player nextGonePlayer;
+
+        string player2Sym;
+        Answer answer;
+
+        Button btnBack, btnNewGame;
+
+        StackLayout stack, mainStack;
+
+        public TripsTrapsTrull_Page(bool PlayWithBot, string player1Sym)
+        {
+            InitializeComponent();
+
+            BackgroundColor = Color.White;
+
+            playWithBot = PlayWithBot;
+            player1 = new Player(player1Sym, false);
+
+            if (player1Sym == "X")
+            {
+                player2Sym = "O";
+            }
+            else
+            {
+                player2Sym = "X";
+            }
+
+            if (playWithBot) player2 = new Player(player2Sym, true);
+            else player2 = new Player(player2Sym, false);
+
+            lastGonePlayer = player2;
+            nextGonePlayer = player1;
+=======
         public TripsTrapsTrull_Page(bool PlayWithBot)
         {
+=======
+        public TripsTrapsTrull_Page(bool PlayWithBot)
+        {
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
 
             playWithBot = PlayWithBot;
 
@@ -52,6 +108,10 @@ namespace mobileAppDotskin
             else player2 = new Player("O", false);
 
             lastGonePlayer = player2;
+<<<<<<< HEAD
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
 
 
             grid = new Grid
@@ -72,7 +132,34 @@ namespace mobileAppDotskin
                         HorizontalTextAlignment = TextAlignment.Center,
                         BackgroundColor = Color.Beige
                     };
-                    labels.Add(lbl); // Добавляем метку в список
+
+
+                    stack = new StackLayout
+                    {
+                    };
+                    //dfd
+                    mainStack = new StackLayout
+                    {
+                    };
+
+                    btnBack = new Button
+                    {
+                        Text = "Tagasi"
+                    };
+                    btnNewGame = new Button
+                    {
+                        Text = "Uus mäng"
+                    };
+                    
+
+                    stack.Children.Add(btnNewGame);
+                    stack.Children.Add(btnBack);
+                
+
+                    
+
+
+                    labels.Add(lbl);
                     grid.Children.Add(lbl, i, j);
 
                     var tapGestureRecognizer = new TapGestureRecognizer();
@@ -82,16 +169,62 @@ namespace mobileAppDotskin
 
                         if (string.IsNullOrEmpty(tappedLabel.Text))
                         {
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            tappedLabel.Text = nextGonePlayer.sym;
+                            answer = CheckForWin();
+                            if (answer.res == true)
+                            {
+                                await DisplayAlert("Võit!", $"Mängija {answer.sym} võitis!", "Ok");
+=======
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
                             // Ход игрока
                             tappedLabel.Text = lastGonePlayer.sym;
                             // Проверяем, выиграл ли игрок
                             if (CheckForWin())
                             {
                                 await DisplayAlert("Победа", $"Игрок {lastGonePlayer.sym} выиграл!", "OK");
+<<<<<<< HEAD
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
                                 reloadGame();
                                 return;
                             }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            if (labels.Any(label => string.IsNullOrEmpty(label.Text)))
+                            {
+
+                                if (player2.isBot)
+                                {
+                                    await BotMove();
+                                   
+                                }
+
+                                answer = CheckForWin();
+                                if (answer.res==true )
+                                {
+                                    if (player2.isBot)
+                                        await DisplayAlert("Võit!", "Bot võitis!", "Ok");
+                                    else
+                                        await DisplayAlert("Võit!", $"Mängija {answer.sym} võitis!", "Ok");
+
+                                    reloadGame();
+                                    return;
+                                }
+                                lastGonePlayer = (lastGonePlayer == player1) ? player2 : player1;
+                                nextGonePlayer = (nextGonePlayer == player1) ? player2 : player1;
+                            }
+                            else
+                            {
+                                await DisplayAlert("Joonista", "Mängus joonista!", "Ok");
+                                reloadGame();
+=======
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
 
                             if (labels.Any(label => string.IsNullOrEmpty(label.Text)))
                             {
@@ -120,6 +253,10 @@ namespace mobileAppDotskin
                                 await DisplayAlert("Ничья", "Игра окончена вничью!", "OK");
                                 reloadGame();
 
+<<<<<<< HEAD
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
                                 return;
                             }
                         }
@@ -127,8 +264,88 @@ namespace mobileAppDotskin
 
                     };
                     lbl.GestureRecognizers.Add(tapGestureRecognizer);
+
+                    mainStack.Children.Add(grid);
+                    mainStack.Children.Add(stack);
+
                 }
             }
+            
+
+            Content = mainStack;
+        }
+
+        private void reloadGame()
+        {
+            foreach (var label in labels)
+            {
+                label.Text = "";
+            }
+            lastGonePlayer = player2; 
+        }
+
+        private Answer CheckForWin()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (labels[i * 3].Text == labels[i * 3 + 1].Text && labels[i * 3].Text == labels[i * 3 + 2].Text && !string.IsNullOrEmpty(labels[i * 3].Text))
+                {
+                    answer = new Answer(true, labels[i * 3].Text);
+                    return answer;
+                }
+            }
+<<<<<<< HEAD
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (labels[i].Text == labels[i + 3].Text && labels[i].Text == labels[i + 6].Text && !string.IsNullOrEmpty(labels[i].Text))
+                {
+                    answer = new Answer(true, labels[i].Text);
+                    return answer;
+                }
+            }
+<<<<<<< HEAD
+
+            if (labels[0].Text == labels[4].Text && labels[0].Text == labels[8].Text && !string.IsNullOrEmpty(labels[0].Text))
+            {
+                answer = new Answer(true, labels[0].Text);
+                return answer;
+            }
+            if (labels[2].Text == labels[4].Text && labels[2].Text == labels[6].Text && !string.IsNullOrEmpty(labels[2].Text))
+            {
+                answer = new Answer(true, labels[2].Text);
+                return answer;
+            }
+
+            answer = new Answer(false, "");
+            return answer;
+        }
+
+        private async Task BotMove()
+        {
+            await Task.Delay(500); 
+
+            var emptyCells = labels.Where(label => string.IsNullOrEmpty(label.Text)).ToList();
+            if (emptyCells.Any())
+            {
+                var random = new Random();
+                var randomCell = emptyCells[random.Next(emptyCells.Count)];
+                randomCell.Text = player2.sym; 
+                lastGonePlayer = (lastGonePlayer == player1) ? player2 : player1;
+                nextGonePlayer = (nextGonePlayer == player1) ? player2 : player1;
+            }
+        }
+        public class Answer
+        {
+            public bool res;
+            public string sym;
+            public Answer(bool Res, string Sym) { 
+                res= Res;
+                sym = Sym;
+            }
+        }
+
+=======
             
             Content = grid;
            
@@ -145,6 +362,24 @@ namespace mobileAppDotskin
             // Вернуть последнего игрока (первого или второго) в качестве текущего игрока
             lastGonePlayer = player2;
         }
+=======
+            
+            Content = grid;
+           
+        }
+
+
+        private void reloadGame()
+        {
+            foreach (var label in labels)
+            {
+                label.Text = "";
+            }
+
+            // Вернуть последнего игрока (первого или второго) в качестве текущего игрока
+            lastGonePlayer = player2;
+        }
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
         private bool CheckForWin()
         {
           
@@ -200,265 +435,9 @@ namespace mobileAppDotskin
 
 
 
+<<<<<<< HEAD
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
+=======
+>>>>>>> 1fed75f61b824857e0f97b2d108e6e5eb409307c
     }
-
-
 }
-
-
-
-        //grid = new Grid
-        //    {
-        //        BackgroundColor = Color.FromRgb(12, 123, 123),
-        //        HorizontalOptions = LayoutOptions.FillAndExpand,
-        //        VerticalOptions = LayoutOptions.FillAndExpand,
-        //    };
-        //TapGestureRecognizer tap = new TapGestureRecognizer();
-        //tap.NumberOfTapsRequired = 1;
-        //tap.Tapped += Tap_Tapped1;
-        //for (int i = 0; i < 3; i++)
-        //{
-        //    for (int ii = 0; ii < 3; ii++)
-        //    {
-        //        Label label = new Label
-        //        {
-        //            HorizontalOptions = LayoutOptions.FillAndExpand,
-        //            VerticalOptions = LayoutOptions.FillAndExpand,
-        //            Text = " ",
-        //            FontSize = 50,
-        //            BackgroundColor = Color.White,
-        //            TextColor = Color.Black,
-
-        //            HorizontalTextAlignment = TextAlignment.Center
-
-        //        };
-        //        untapped.Add(label);
-        //        label.GestureRecognizers.Add(tap);
-        //        grid.Children.Add(label, i, ii);
-        //    }
-        //}
-        //    untappedClone = new List<Label>(untapped);
-        //    lblinfo = new Label
-        //    {
-        //        Text = "Mängija vs mängija",
-        //        TextColor = Color.Black,
-        //        FontFamily = "Bold, Lobster-Regular",
-        //        HorizontalTextAlignment = TextAlignment.Center,
-        //        FontSize = 18
-        //    };
-        //    whichturnlbl = new Label
-        //    {
-        //        TextColor = Color.Black,
-        //        FontFamily = "Bold, Lobster-Regular",
-        //        HorizontalTextAlignment = TextAlignment.Center,
-        //        FontSize = 18
-        //    };
-        //    btnbot = new Button
-        //    {
-        //        Text = "Mängi vs bot"
-        //    };
-        //    btnonline = new Button
-        //    {
-        //        Text = "Mängi vs mängija"
-        //    };
-        //    rndbackgorund = new Button
-        //    {
-        //        Text = "Määra juhuslik värv"
-        //    };
-        //    howmanygames = new Label
-        //    {
-        //        Text = $"Sa mängisid {gamescounter} mänge",
-        //        TextColor = Color.Black,
-        //        FontFamily = "Bold, Lobster-Regular",
-        //        HorizontalTextAlignment = TextAlignment.Center,
-        //        FontSize = 18
-        //    };
-        //    btnbot.Clicked += Btnbot_Clicked;
-        //    btnonline.Clicked += Btnonline_Clicked;
-        //    rndbackgorund.Clicked += Rndbackgorund_Clicked;
-        //    grid.Children.Add(lblinfo, 1, 4);
-        //    grid.Children.Add(whichturnlbl, 0, 4);
-        //    grid.Children.Add(howmanygames, 2, 4);
-        //    grid.Children.Add(btnonline, 0, 5);
-        //    grid.Children.Add(btnbot, 1, 5);
-        //    grid.Children.Add(rndbackgorund, 2, 5);
-        //    Content = grid;
-        //}
-
-
-        //private void Rndbackgorund_Clicked(object sender, EventArgs e)
-        //{
-        //    rnd = new Random();
-        //    int ar = rnd.Next(0, 255);
-        //    int ag = rnd.Next(0, 255);
-        //    int ab = rnd.Next(0, 255);
-        //    grid.BackgroundColor = Color.FromRgb(ar, ag, ab);
-        //}
-
-
-        //private void Whichcturn()
-        //{
-        //    if (counter % 2 == 0)
-        //    {
-        //        whichturnlbl.Text = "Nüüd " + "X " + " pöörake";
-        //    }
-        //    else
-        //    {
-        //        whichturnlbl.Text = "Nüüd " + "0" + " pöörake";
-        //    }
-        //}
-        //private void Btnonline_Clicked(object sender, EventArgs e)
-        //{
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        for (int ii = 0; ii < 3; ii++)
-        //        {
-        //            GetLabel(i, ii).Text = " ";
-        //        }
-        //    }
-        //    gmmode = 0;
-        //    counter = 0;
-        //    gamescounter++;
-        //    lblinfo.Text = "Mängija vs Mängija ";
-        //    whichturnlbl.Text = "Nüüd X omakorda";
-        //    untapped = new List<Label>(untappedClone);
-        //    howmanygames.Text = $"Sa mängisid {gamescounter} mänge";
-        //}
-
-        //private void Btnbot_Clicked(object sender, EventArgs e)
-        //{
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        for (int ii = 0; ii < 3; ii++)
-        //        {
-        //            GetLabel(i, ii).Text = " ";
-        //        }
-        //    }
-        //    gmmode = 1;
-        //    counter = 0;
-        //    gamescounter++;
-        //    lblinfo.Text = "Mängija vs bot ";
-        //    whichturnlbl.Text = "Nüüd X omakorda";
-        //    untapped = new List<Label>(untappedClone);
-        //    howmanygames.Text = $"Sa mängisid {gamescounter} mänge";
-        //}
-
-        //private void Tap_Tapped1(object sender, EventArgs e)
-        //{
-        //    rnd = new Random();
-        //    Label fr = (Label)sender;
-        //    int r = Grid.GetRow(fr); int c = Grid.GetColumn(fr);
-        //    if (gmmode == 0)
-        //    {
-        //        if (counter % 2 == 0)
-        //        {
-        //            if (fr.Text == " ")
-        //            {
-        //                fr.Text = "X";
-        //                counter++;
-        //                tapped.Add(fr);
-        //                untapped.Remove(fr);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (fr.Text == " ")
-        //            {
-        //                fr.Text = "O";
-        //                counter++;
-        //                tapped.Add(fr);
-        //                untapped.Remove(fr);
-        //            }
-        //        }
-        //    }
-        //    if (gmmode == 1)
-        //    {
-        //        if (counter % 2 == 0)
-        //        {
-        //            if (fr.Text == " ")
-        //            {
-        //                fr.Text = "X";
-        //                counter++;
-        //                tapped.Add(fr);
-        //                untapped.Remove(fr);
-        //            }
-        //            Botstep();
-        //        }
-        //    }
-        //    Whichcturn();
-        //    Checkwin();
-        //}
-
-        //private void Checkwin()
-        //{
-        //    foreach (var winCondition in Winconditions())
-        //    {
-        //        bool xWins = true;
-        //        bool oWins = true;
-        //        foreach (var label in winCondition)
-        //        {
-        //            if (label.Text != "X")
-        //                xWins = false;
-        //            if (label.Text != "O")
-        //                oWins = false;
-        //        }
-
-        //        if (xWins)
-        //        {
-        //            DisplayAlert("X Võidab", "Kui soovite mängu taaskäivitamist, klõpsake mis tahes nupule", "OK");
-        //            break;
-        //        }
-        //        if (oWins)
-        //        {
-        //            DisplayAlert("O Võidab", "Kui soovite mängu taaskäivitamist, klõpsake mis tahes nupule", "OK");
-        //            break;
-        //        }
-        //        if (counter == 9)
-        //        {
-        //            DisplayAlert("Viik", "Kui soovite mängu taaskäivitamist, klõpsake mis tahes nupule", "OK");
-        //            break;
-        //        }
-
-        //    }
-        //}
-
-        //private List<List<Label>> Winconditions()
-        //{
-        //    List<List<Label>> winConditions = new List<List<Label>>();
-
-
-        //    winConditions.Add(new List<Label> { GetLabel(0, 0), GetLabel(1, 0), GetLabel(2, 0) });
-        //    winConditions.Add(new List<Label> { GetLabel(0, 1), GetLabel(1, 1), GetLabel(2, 1) });
-        //    winConditions.Add(new List<Label> { GetLabel(0, 2), GetLabel(1, 2), GetLabel(2, 2) });
-
-
-        //    winConditions.Add(new List<Label> { GetLabel(0, 0), GetLabel(0, 1), GetLabel(0, 2) });
-        //    winConditions.Add(new List<Label> { GetLabel(1, 0), GetLabel(1, 1), GetLabel(1, 2) });
-        //    winConditions.Add(new List<Label> { GetLabel(2, 0), GetLabel(2, 1), GetLabel(2, 2) });
-
-        //    winConditions.Add(new List<Label> { GetLabel(0, 0), GetLabel(1, 1), GetLabel(2, 2) });
-        //    winConditions.Add(new List<Label> { GetLabel(0, 2), GetLabel(1, 1), GetLabel(2, 0) });
-
-        //    return winConditions;
-        //}
-
-        //private Label GetLabel(int row, int column)
-        //{
-        //    foreach (var child in grid.Children)
-        //    {
-        //        if (Grid.GetRow(child) == row && Grid.GetColumn(child) == column)
-        //            return (Label)child;
-        //    }
-        //    return null;
-        //}
-        //private void Botstep()
-        //{
-        //    rnd = new Random();
-        //    int rndint = untapped.Count + 1;
-        //    int rnd_element = rnd.Next(rndint);
-        //    Label label = untapped[rnd_element];
-        //    label.Text = "O";
-        //    counter++;
-        //    tapped.Add(untapped[rnd_element]);
-        //    untapped.Remove(untapped[rnd_element]);
-
